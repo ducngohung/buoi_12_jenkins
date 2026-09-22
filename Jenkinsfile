@@ -2,14 +2,16 @@ pipeline {
     agent any
     stages {
         stage('Demo Credentials') {
+
             steps {
-                echo "Hello World"
-                echo "it's working"
-            }
-        }
-        stage('List File') {
-            steps {
-                sh 'ls -ltr'
+                withCredentials([
+                    usernamePassword(credentialsId: 'github-login', usernameVariable: 'USER', passwordVariable: 'PASS'),
+                    sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'KEY', usernameVariable: 'SSHUSER'),
+                    string(credentialsId: 'demo-khoa-bi-mat', variable: 'BIMAT')
+                ]) {
+                    echo "${USER} - ${PASS} - ${KEY} - ${SSHUSER} - ${BIMAT}"
+                }
+
             }
         }
     }
