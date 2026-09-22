@@ -1,25 +1,25 @@
-name: Deployment
+# name: Deployment
 
-on:
-  push:
-    branches:
-      - main
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Product
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ vars.VPS_HOST }}
-          username: ${{ vars.VPS_USERNAME }}
-          key: ${{ vars.VPS_KEY }}
-          script: |
-            cd /root/buoi_11
-            git pull origin main
-            docker-compose down
-            docker-compose build
-            docker-compose up -d
-            docker images -f "dangling=true" -q | xargs -r docker rmi
+# on:
+#   push:
+#     branches:
+#       - main
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Deploy Product
+#         uses: appleboy/ssh-action@v0.1.5
+#         with:
+#           host: ${{ vars.VPS_HOST }}
+#           username: ${{ vars.VPS_USERNAME }}
+#           key: ${{ vars.VPS_KEY }}
+#           script: |
+#             cd /root/buoi_11
+#             git pull origin main
+#             docker-compose down
+#             docker-compose build
+#             docker-compose up -d
+#             docker images -f "dangling=true" -q | xargs -r docker rmi
 
             
