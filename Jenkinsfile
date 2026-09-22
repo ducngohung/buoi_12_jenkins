@@ -5,7 +5,7 @@ pipeline {
 
             steps {
                 withCredentials([
-                    usernamePassword(credentialsId: 'github-login', usernameVariable: 'USER', passwordVariable: 'PASS'),
+                    usernamePassword(credentialsId: 'github_login', usernameVariable: 'USER', passwordVariable: 'PASS'),
                     sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'KEY', usernameVariable: 'SSHUSER'),
                     string(credentialsId: 'demo-khoa-bi-mat', variable: 'BIMAT')
                 ]) {
