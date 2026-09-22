@@ -1,0 +1,7 @@
+services:
+  deploy_html:
+    container_name: deploy_html
+    ports:
+      - "3001:80"
+    build: .
+    restart: unless-stopped
