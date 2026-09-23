@@ -1,17 +1,27 @@
 pipeline {
     agent any
+
+    environment {
+        IP_SERVER = '157.230.253.126'
+        DEPLOY_PATH = '/root/buoi_12_jenkins'
+    }
+
     stages {
-        stage('Demo Credentials') {
+        stage("Demo") {
 
             steps {
                 withCredentials([
-                    usernamePassword(credentialsId: 'github_login', usernameVariable: 'USER', passwordVariable: 'PASS'),
-                    sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'KEY', usernameVariable: 'SSHUSER'),
-                    string(credentialsId: 'demo-khoa-bi-mat', variable: 'BIMAT')
+                    sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'KEY', usernameVariable: 'USER')
                 ]) {
-                    echo "${USER} - ${PASS} - ${KEY} - ${SSHUSER} - ${BIMAT}"
+                    sh """
+                    ssh -o StrictHostKeyChecking=no -i ${KEY} ${USER}@${IP_SERVER} '
+                        cd ${DEPLOY_PATH} && git pull
+                        docker-compose down
+                        docker-compose build
+                        docker-compose up -d
+                    '
+                    """
                 }
-
             }
         }
     }
